@@ -1,26 +1,27 @@
+import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
-
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainPage {
 
-    private By ptoduct = By.xpath("//*[@class=\"image-wrapper\"]");
-    private By stickerPtoduct = By.xpath(".//*[contains(@class,'sticker')]");
-    private By nameProduct = By.xpath("//..//*[@class=\"name\"]");
+    private By countries = By.xpath("//*[@href=\"http://localhost/litecart/admin/?app=countries&doc=countries\"]");
+    private By geoZones = By.xpath("//*[@href=\"http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones\"]");
 
-    public MainPage checkStickerPtoduct() throws Exception {
-        List<WebElement> ptoductList = new ArrayList<>();
-        ptoductList.addAll(Driver.getInstance().findElements(ptoduct));
-        for (int i = 0; i <ptoductList.size(); i++) {
-            if (ptoductList.get(i).findElements(stickerPtoduct).size() != 1) {
-                throw new Exception(String.format("Количество стикеров у продукта с именем %s не равно одному", ptoductList.get(i).findElement(nameProduct).getText()));
-            }
+    public CountriesPage goToCountriesPage() {
+        Helpers.clickJs(countries);
+        return new CountriesPage();
+    }
 
-        }
-        return this;
+    public GeoZonesPage goToGeoZonesPage() {
+        Helpers.clickJs(geoZones);
+        return new GeoZonesPage();
     }
 }
 
