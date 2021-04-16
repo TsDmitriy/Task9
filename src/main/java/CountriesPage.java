@@ -18,6 +18,7 @@ public class CountriesPage extends MainPage {
 
     private Integer countryName = 5;
     private Integer hrefName = 5;
+    private Integer name = 2;
     private Integer zones = 6;
 
     public CountriesPage getAllCountryName() {
@@ -63,7 +64,7 @@ public class CountriesPage extends MainPage {
                 rowsPage.addAll(table.findElements(By.xpath(".//tr")));
 
                 for (int i = 0; i < rowsPage.size(); i++) {
-                    cellPageList.addAll(rowsPage.get(i).findElements(By.xpath("./td[2]")));
+                    cellPageList.addAll(rowsPage.get(i).findElements(By.xpath("./td["+name+"]")));
                 }
                 rowsPage.clear();
                 for (int a = 0; a < cellPageList.size(); a++) {

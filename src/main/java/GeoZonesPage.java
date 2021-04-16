@@ -13,6 +13,7 @@ public class GeoZonesPage {
     private List<WebElement> cellCounryPage = new ArrayList<>();
     private List<String> codeList = new ArrayList<>();
     private Integer hrefName = 3;
+    private Integer zones = 3;
     private List<WebElement> zonesList = new ArrayList<>();
 
 
@@ -36,7 +37,7 @@ public class GeoZonesPage {
             cellCounryPage.addAll(table.findElements(By.xpath(".//tr")));
 
             for (int a = 0; a < cellCounryPage.size(); a++) {
-                zonesList.addAll(cellCounryPage.get(i).findElements(By.xpath("./td[3]")));
+                zonesList.addAll(cellCounryPage.get(i).findElements(By.xpath("./td["+zones+"]")));
             }
             cellCounryPage.clear();
             for (int b = 0; b < zonesList.size();b++) {
