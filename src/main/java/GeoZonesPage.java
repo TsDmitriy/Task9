@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ public class GeoZonesPage {
     private List<WebElement> cell = new ArrayList<>();
     private List<WebElement> cellCounryPage = new ArrayList<>();
     private List<String> codeList = new ArrayList<>();
+    private List<String> listStringZone = new ArrayList<>();
     private Integer hrefName = 3;
     private Integer zones = 3;
     private List<WebElement> zonesList = new ArrayList<>();
@@ -34,22 +36,24 @@ public class GeoZonesPage {
         for (int i = 0; i < codeList.size(); i++) {
             Driver.getInstance().get(codeList.get(i));
             WebElement table = Driver.getInstance().findElement(By.id("table-zones"));
-            cellCounryPage.addAll(table.findElements(By.xpath(".//tr")));
+            cellCounryPage.addAll(table.findElements(By.xpath(".//tr[not(contains(@class, 'header'))]")));
+            int lastElement = cellCounryPage.size() - 1;
+            cellCounryPage.remove(lastElement);
 
             for (int a = 0; a < cellCounryPage.size(); a++) {
-                zonesList.addAll(cellCounryPage.get(i).findElements(By.xpath("./td["+zones+"]")));
+                zonesList.add(cellCounryPage.get(a).findElement(By.xpath("./td[" + zones + "]//*[contains(@selected, 'selected')]")));
             }
             cellCounryPage.clear();
-            for (int b = 0; b < zonesList.size();b++) {
-                codeList.add(zonesList.get(b).getText());
+            for (int b = 0; b < zonesList.size(); b++) {
+                listStringZone.add(zonesList.get(b).getText());
             }
             zonesList.clear();
-            List<String> sortList = codeList.stream().collect(Collectors.toList());
+            List<String> sortList = listStringZone.stream().collect(Collectors.toList());
             Collections.sort(sortList);
-            if (!sortList.equals(codeList)) {
+            if (!sortList.equals(listStringZone)) {
                 throw new RuntimeException("Зоны расположены не в алфавитном порядке на странице " + Driver.getInstance().getCurrentUrl());
             }
-            codeList.clear();
+            listStringZone.clear();
         }
         return this;
     }
